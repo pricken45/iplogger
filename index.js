@@ -15,7 +15,7 @@ app.get('/ip', (req, res) => {
 
 io.on("connection", (socket) => {
     console.log("connection")
-    latestIP = socket.handshake.address;
+    latestIP = socket.handshake.address.address;
 });
 
 server.listen(process.env.PORT);
