@@ -2,20 +2,20 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
+const requestIp = require("request-ip");
+app.use(requestIp.mw());
 
 let latestIP = "";
 
+app.set('trust proxy', true);
 app.use(express.static("public"));
 
 app.get('/ip', (req, res) => {
     res.json({ ip: latestIP });
 });
 
-io.on("connection", (socket) => {
-    console.log("connection")
-    latestIP = socket.handshake.address.address;
-});
+app.get('/info', (req, res) => {
+    latestIP = req.clientIp;
+})
 
-server.listen(process.env.PORT);
+server.listen(process.env.PORT || 3000);
