@@ -18,4 +18,4 @@ io.on("connection", (socket) => {
     latestIP = socket.handshake.address;
 });
 
-server.listen(3000);
+server.listen(process.env.PORT);
